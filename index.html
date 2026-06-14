@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>দি অক্টা স্কোয়াড - মেস ম্যানেজমেন্ট সিস্টেম</title>
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Font: Inter & Noto Sans Bengali -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #f0f2f5;
+            font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
+            padding: 2rem 1rem;
+            color: #1e293b;
+        }
+        /* main card / cash memo container */
+        .memo-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        /* header section */
+        .memo-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 1.5rem 2rem;
+            color: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+        }
+        .squad-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .squad-title i {
+            font-size: 2rem;
+            color: #facc15;
+        }
+        .date-badge {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 1rem;
+            font-family: monospace;
+        }
+        /* info row : manager & buy by */
+        .info-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            background: #f8fafc;
+            padding: 1.2rem 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .info-field {
+            flex: 1;
+            min-width: 180px;
+        }
+        .info-field label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #475569;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .info-field input, .info-field select {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            background: white;
+            transition: 0.2s;
+        }
+        .info-field input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+        /* table section */
+        .table-wrapper {
+            overflow-x: auto;
+            padding: 0 1.5rem 1rem 1.5rem;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            min-width: 600px;
+        }
+        .items-table th {
+            text-align: left;
+            padding: 1rem 0.75rem;
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .items-table td {
+            padding: 0.9rem 0.75rem;
+            border-bottom: 1px solid #eef2ff;
+            vertical-align: middle;
+        }
+        .items-table tr:hover td {
+            background-color: #fef9e3;
+        }
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+        .edit-btn, .delete-btn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.1s;
+            padding: 5px 8px;
+            border-radius: 30px;
+        }
+        .edit-btn { color: #3b82f6; }
+        .edit-btn:hover { background: #dbeafe; transform: scale(1.05);}
+        .delete-btn { color: #ef4444; }
+        .delete-btn:hover { background: #fee2e2; transform: scale(1.05);}
+        .total-row {
+            background: #fef9e3;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .total-row td {
+            border-top: 2px solid #facc15;
+            padding: 1rem 0.75rem;
+        }
+        /* form section (add / edit product) */
+        .product-form {
+            margin: 1rem 2rem 2rem 2rem;
+            background: #f9fafb;
+            border-radius: 28px;
+            padding: 1.5rem;
+            border: 1px solid #e4e7eb;
+        }
+        .form-title {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+        .form-group {
+            flex: 2;
+            min-width: 150px;
+            position: relative;
+        }
+        .form-group.small {
+            flex: 1;
+        }
+        .form-group label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+            color: #334155;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border-radius: 40px;
+            border: 1px solid #cbd5e1;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        button {
+            font-family: inherit;
+            font-weight: 600;
+            padding: 0.65rem 1.3rem;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: #0f172a;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+        }
+        .btn-warning {
+            background: #eab308;
+            color: #0f172a;
+        }
+        .btn-warning:hover {
+            background: #ca8a04;
+        }
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+        .btn-danger:hover {
+            background: #fecaca;
+        }
+        .print-area {
+            display: flex;
+            justify-content: flex-end;
+            margin: 0 2rem 2rem 2rem;
+            gap: 12px;
+        }
+        /* suggestion dropdown */
+        .suggestions-box {
+            position: absolute;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 20px;
+            max-height: 220px;
+            overflow-y: auto;
+            width: calc(100% - 2px);
+            z-index: 100;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin-top: 5px;
+        }
+        .suggestions-box div {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.1s;
+        }
+        .suggestions-box div:hover {
+            background: #eef2ff;
+        }
+        /* print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .memo-container {
+                box-shadow: none;
+                border-radius: 0;
+                max-width: 100%;
+            }
+            .product-form, .print-area, .action-btns, .btn-group, .btn-primary, .btn-warning, .btn-secondary, .btn-danger, .info-panel .info-field input, .info-panel .info-field select {
+                display: none !important;
+            }
+            .info-panel {
+                border: 1px solid #ccc;
+                background: #fcfcfc;
+            }
+            .info-field label {
+                color: black;
+            }
+            .items-table th, .items-table td {
+                border: 1px solid #ccc;
+            }
+            .total-row td {
+                border-top: 2px solid black;
+            }
+            .memo-header {
+                background: #0f172a !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .date-badge {
+                background: #334155;
+                color: white;
+            }
+        }
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            padding: 1rem;
+            color: #64748b;
+        }
+        i.fa, i.far, i.fas {
+            pointer-events: none;
+        }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+<div class="memo-container">
+    <!-- Header: The_Octa_Squad + Auto Date -->
+    <div class="memo-header">
+        <div class="squad-title">
+            <i class="fas fa-utensils"></i>
+            <span>The_Octa_Squad</span>
+        </div>
+        <div class="date-badge" id="currentDateDisplay"></div>
+    </div>
+
+    <!-- Manager & Buy by (ক্রেতার নাম) -->
+    <div class="info-panel">
+        <div class="info-field">
+            <label><i class="fas fa-user-tie"></i> ম্যানেজারের নাম (Manager)</label>
+            <input type="text" id="managerName" placeholder="যেমন: রাকিব হাসান" value="আব্দুর রহিম">
+        </div>
+        <div class="info-field">
+            <label><i class="fas fa-user-check"></i> Buy by (ক্রয়কারী)</label>
+            <input type="text" id="buyByName" list="memberList" placeholder="৮ সদস্যের নাম">
+            <datalist id="memberList">
+                <option value="শাহীন আলম">
+                <option value="হাসান মিয়া">
+                <option value="রফিক উদ্দিন">
+                <option value="করিম খান">
+                <option value="সজিব আহমেদ">
+                <option value="তুহিন চৌধুরী">
+                <option value="আরিফ ইসলাম">
+                <option value="নাঈম হোসেন">
+            </datalist>
+        </div>
+    </div>
+
+    <!-- বাজারের তালিকা (Table) -->
+    <div class="table-wrapper">
+        <table class="items-table" id="itemsTable">
+            <thead>
+                <tr>
+                    <th>ক্রমিক #</th>
+                    <th>পণ্যের নাম (Item)</th>
+                    <th>পরিমাণ (Qty)</th>
+                    <th>দাম/একক (Price)</th>
+                    <th>মোট (Total)</th>
+                    <th>অ্যাকশন</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- dynamic rows -->
+            </tbody>
+            <tfoot>
+                <tr class="total-row" id="totalRow">
+                    <td colspan="4" style="text-align: right; font-weight: 700;">সর্বমোট (Grand Total): </td>
+                    <td id="grandTotalCell">০.০০ টাকা</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!-- Add/Edit product section with recommendation -->
+    <div class="product-form">
+        <div class="form-title">
+            <i class="fas fa-cart-plus"></i> <span id="formModeLabel">পণ্য যোগ করুন</span>
+        </div>
+        <div class="form-grid">
+            <div class="form-group" style="position: relative;">
+                <label>পণ্যের নাম (বাংলা/ইংরেজি)</label>
+                <input type="text" id="itemNameInput" placeholder="যেমন: সবজি, মাছ, ডিম..." autocomplete="off">
+                <div id="suggestionList" class="suggestions-box" style="display: none;"></div>
+            </div>
+            <div class="form-group small">
+                <label>পরিমাণ (কেজি/পিস)</label>
+                <input type="number" id="itemQuantity" step="any" value="1" placeholder="০.০">
+            </div>
+            <div class="form-group small">
+                <label>দাম (টাকা)</label>
+                <input type="number" id="itemPrice" step="any" value="0" placeholder="০.০০">
+            </div>
+        </div>
+        <div class="btn-group">
+            <button id="addItemBtn" class="btn-primary"><i class="fas fa-plus-circle"></i> আইটেম যোগ করুন</button>
+            <button id="updateItemBtn" class="btn-warning" style="display: none;"><i class="fas fa-sync-alt"></i> হালনাগাদ করুন</button>
+            <button id="cancelEditBtn" class="btn-secondary" style="display: none;"><i class="fas fa-times"></i> বাতিল</button>
+        </div>
+        <div style="font-size: 0.7rem; margin-top: 10px; color: #475569;">
+            <i class="fas fa-lightbulb"></i> পরামর্শ: বাংলায় প্রথম অক্ষর লিখলেই রেকমেন্ডেশন আসবে (যেমন 'স' লিখলে সবজি)
+        </div>
+    </div>
+
+    <!-- Print & Reset actions -->
+    <div class="print-area">
+        <button id="printPdfBtn" class="btn-primary"><i class="fas fa-print"></i> PDF / প্রিন্ট করুন</button>
+        <button id="clearAllBtn" class="btn-danger"><i class="fas fa-trash-alt"></i> সব মুছুন</button>
+    </div>
+    <footer>মেস ম্যানেজমেন্ট সিস্টেম | দি অক্টা স্কোয়াড - স্বয়ংক্রিয় হিসাব, ক্যাশ মেমো স্টাইল</footer>
+</div>
+
+<script>
+    // ======================== প্রোডাক্ট রেকমেন্ডেশনের জন্য আইটেম লিস্ট ========================
+    const bengaliProductList = [
+        "সবজি", "মাছ", "মাংস", "ডিম", "তেল", "চাল", "ডাল", "পেঁয়াজ", "রসুন", "আদা", "লবণ", 
+        "মরিচ", "হলুদ", "জিরা", "ধনিয়া", "আলু", "টমেটো", "পটল", "করলা", "কুমড়ো", "শশা", 
+        "লাউ", "বেগুন", "মুলা", "কপি", "ফুলকপি", "বাঁধাকপি", "শিম", "চিচিঙ্গা", "ধনে পাতা", 
+        "লেবু", "ঘি", "সরিষার তেল", "চিনি", "গুড়", "আটা", "ময়দা", "সুজি", "চিড়া", "মুড়ি", 
+        "বেসন", "দই", "দুধ", "পনির", "মুরগি", "গরুর মাংস", "খাসির মাংস", "ইলিশ", "রুই", 
+        "কাতলা", "চিংড়ি", "পাউরুটি", "বিস্কুট", "চা", "কফি", "সাবান", "ডিটারজেন্ট", "মসলা", 
+        "জিরা গুঁড়া", "ধনিয়া গুঁড়া", "মরিচ গুঁড়া", "টমেটো সস", "সয়াবিন তেল"
+    ];
+    
+    // ডাটা স্টোর : items array [{ id, name, quantity, price, total }]
+    let itemsArray = [];
+    let nextId = 1;
+    let editMode = false;
+    let editItemId = null;
+
+    // DOM elements
+    const tableBody = document.getElementById('tableBody');
+    const grandTotalCell = document.getElementById('grandTotalCell');
+    const itemNameInput = document.getElementById('itemNameInput');
+    const itemQuantity = document.getElementById('itemQuantity');
+    const itemPrice = document.getElementById('itemPrice');
+    const addBtn = document.getElementById('addItemBtn');
+    const updateBtn = document.getElementById('updateItemBtn');
+    const cancelBtn = document.getElementById('cancelEditBtn');
+    const formModeLabel = document.getElementById('formModeLabel');
+    const printBtn = document.getElementById('printPdfBtn');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    const managerNameInput = document.getElementById('managerName');
+    const buyByNameInput = document.getElementById('buyByName');
+    
+    // suggestion box
+    const suggestionBox = document.getElementById('suggestionList');
+
+    // date function (আপডেট latest)
+    function updateDate() {
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+        const banglaDate = now.toLocaleDateString('bn-BD', options);
+        document.getElementById('currentDateDisplay').innerText = banglaDate + " | " + now.toLocaleTimeString('bn-BD', { hour: '2-digit', minute:'2-digit' });
+    }
+    updateDate();
+    setInterval(updateDate, 60000);
+
+    // গ্র্যান্ড টোটাল রিকারculate
+    function calculateGrandTotal() {
+        let sum = 0;
+        itemsArray.forEach(item => {
+            sum += item.total;
+        });
+        return sum;
+    }
+    
+    function renderTable() {
+        if (!tableBody) return;
+        tableBody.innerHTML = '';
+        if (itemsArray.length === 0) {
+            const emptyRow = document.createElement('tr');
+            emptyRow.innerHTML = `<td colspan="6" style="text-align:center; padding:40px;">📭 এখনো কোনো পণ্য যোগ করা হয়নি। উপরের ফর্ম দিয়ে বাজারের আইটেম যোগ করুন।</td>`;
+            tableBody.appendChild(emptyRow);
+            grandTotalCell.innerText = '০.০০ টাকা';
+            return;
+        }
+        itemsArray.forEach((item, idx) => {
+            const row = document.createElement('tr');
+            // serial no
+            const serial = idx + 1;
+            row.innerHTML = `
+                <td>${serial}</td>
+                <td style="font-weight:500;">${escapeHtml(item.name)}</td>
+                <td>${item.quantity}</td>
+                <td>${item.price.toFixed(2)} ট.</td>
+                <td>${item.total.toFixed(2)} ট.</td>
+                <td class="action-btns">
+                    <button class="edit-btn" data-id="${item.id}"><i class="fas fa-edit"></i></button>
+                    <button class="delete-btn" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+        // attach event listeners for edit/delete
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.getAttribute('data-id'));
+                enterEditMode(id);
+            });
+        });
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.getAttribute('data-id'));
+                deleteItemById(id);
+            });
+        });
+        const total = calculateGrandTotal();
+        grandTotalCell.innerText = total.toFixed(2) + ' টাকা';
+    }
+    
+    // Helper: escape HTML
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function deleteItemById(id) {
+        if (confirm('এই পণ্যটি মুছে ফেলতে চান?')) {
+            itemsArray = itemsArray.filter(item => item.id !== id);
+            if (editMode && editItemId === id) {
+                resetFormToAddMode();
+            }
+            renderTable();
+        }
+    }
+    
+    function enterEditMode(id) {
+        const targetItem = itemsArray.find(item => item.id === id);
+        if (!targetItem) return;
+        editMode = true;
+        editItemId = id;
+        itemNameInput.value = targetItem.name;
+        itemQuantity.value = targetItem.quantity;
+        itemPrice.value = targetItem.price;
+        addBtn.style.display = 'none';
+        updateBtn.style.display = 'inline-flex';
+        cancelBtn.style.display = 'inline-flex';
+        formModeLabel.innerHTML = '<i class="fas fa-pen-alt"></i> পণ্য হালনাগাদ করুন';
+        // scroll to form
+        document.querySelector('.product-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    function resetFormToAddMode() {
+        editMode = false;
+        editItemId = null;
+        itemNameInput.value = '';
+        itemQuantity.value = '1';
+        itemPrice.value = '0';
+        addBtn.style.display = 'inline-flex';
+        updateBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
+        formModeLabel.innerHTML = '<i class="fas fa-cart-plus"></i> পণ্য যোগ করুন';
+        hideSuggestions();
+    }
+    
+    function addOrUpdateItem() {
+        let itemName = itemNameInput.value.trim();
+        let quantity = parseFloat(itemQuantity.value);
+        let price = parseFloat(itemPrice.value);
+        if (itemName === "") {
+            alert("দয়া করে পণ্যের নাম লিখুন (যেমন: সবজি, মাছ)");
+            return;
+        }
+        if (isNaN(quantity) || quantity <= 0) {
+            alert("সঠিক পরিমাণ দিন (০ এর বেশি)");
+            return;
+        }
+        if (isNaN(price) || price < 0) {
+            alert("সঠিক দাম দিন (টাকায়)");
+            return;
+        }
+        const total = quantity * price;
+        
+        if (editMode && editItemId !== null) {
+            // update existing
+            const index = itemsArray.findIndex(i => i.id === editItemId);
+            if (index !== -1) {
+                itemsArray[index] = {
+                    ...itemsArray[index],
+                    name: itemName,
+                    quantity: quantity,
+                    price: price,
+                    total: total
+                };
+            }
+            resetFormToAddMode();
+        } else {
+            // add new
+            const newItem = {
+                id: nextId++,
+                name: itemName,
+                quantity: quantity,
+                price: price,
+                total: total
+            };
+            itemsArray.push(newItem);
+            // clear form but keep previous? good practice
+            itemNameInput.value = '';
+            itemQuantity.value = '1';
+            itemPrice.value = '0';
+        }
+        renderTable();
+        hideSuggestions();
+    }
+    
+    function clearAllItems() {
+        if (itemsArray.length > 0 && confirm("সব বাজারের আইটেম রিসেট করবেন? সমস্ত ডাটা মুছে যাবে।")) {
+            itemsArray = [];
+            nextId = 1;
+            resetFormToAddMode();
+            renderTable();
+        }
+    }
+    
+    // ------------------------- Auto Recommendation (বাংলা) -------------------------
+    function showSuggestions(filterText) {
+        if (!filterText || filterText.length === 0) {
+            hideSuggestions();
+            return;
+        }
+        // prefix match (প্রথম অক্ষর থেকে ম্যাচ)
+        const lowerFilter = filterText.toLowerCase();
+        const filtered = bengaliProductList.filter(product => 
+            product.toLowerCase().startsWith(lowerFilter) || 
+            product.startsWith(filterText)   // বাংলা সরাসরি ম্যাচ
+        );
+        if (filtered.length === 0) {
+            hideSuggestions();
+            return;
+        }
+        suggestionBox.innerHTML = '';
+        filtered.forEach(prod => {
+            const div = document.createElement('div');
+            div.textContent = prod;
+            div.addEventListener('click', () => {
+                itemNameInput.value = prod;
+                hideSuggestions();
+                // ফোকাস ধরে রাখা
+                itemNameInput.focus();
+            });
+            suggestionBox.appendChild(div);
+        });
+        suggestionBox.style.display = 'block';
+    }
+    
+    function hideSuggestions() {
+        suggestionBox.style.display = 'none';
+    }
+    
+    // ইভেন্ট লিসেনার for input field
+    itemNameInput.addEventListener('input', function(e) {
+        const val = e.target.value;
+        if (val.length > 0) {
+            showSuggestions(val);
+        } else {
+            hideSuggestions();
+        }
+    });
+    document.addEventListener('click', function(event) {
+        if (!itemNameInput.contains(event.target) && !suggestionBox.contains(event.target)) {
+            hideSuggestions();
+        }
+    });
+    
+    // print / PDF generation with cash memo style
+    function printAsPDF() {
+        // ensure grand total and fields are visible
+        const originalTitle = document.title;
+        document.title = "The_Octa_Squad_মেস_ক্যাশ_মেমো";
+        window.print();
+        document.title = originalTitle;
+    }
+    
+    // load any demo data (optional - few demo products for showcase)
+    function loadDemoItems() {
+        if (itemsArray.length === 0) {
+            itemsArray.push({
+                id: nextId++,
+                name: "সবজি (মিক্স)",
+                quantity: 2,
+                price: 45,
+                total: 90
+            });
+            itemsArray.push({
+                id: nextId++,
+                name: "মাছ (রুই)",
+                quantity: 1.5,
+                price: 280,
+                total: 420
+            });
+            itemsArray.push({
+                id: nextId++,
+                name: "ডিম",
+                quantity: 12,
+                price: 12,
+                total: 144
+            });
+            renderTable();
+        }
+    }
+    
+    // event binding
+    addBtn.addEventListener('click', addOrUpdateItem);
+    updateBtn.addEventListener('click', addOrUpdateItem);
+    cancelBtn.addEventListener('click', resetFormToAddMode);
+    printBtn.addEventListener('click', printAsPDF);
+    clearAllBtn.addEventListener('click', clearAllItems);
+    
+    // প্রস্তুত করুন ডেমো
+    loadDemoItems();
+    
+    // optional: autosave to localStorage? but not mandatory; keeping fresh
+    
+    // give default manager and buy by name with one of members
+    managerNameInput.value = "Lalon (ম্যানেজার)";
+    buyByNameInput.value = "Leo Messi";
+    
+    // keyboard shortcut: add on enter in form
+    const formInputs = [itemNameInput, itemQuantity, itemPrice];
+    formInputs.forEach(inp => {
+        inp.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (editMode) addOrUpdateItem();
+                else addOrUpdateItem();
+            }
+        });
+    });
+    
+    // at final, hide suggestion when click outside 
+    window.onload = () => {
+        renderTable();
+    };
+    
+    // Quantity / price validation real-time
+    itemQuantity.addEventListener('change', () => {
+        if (itemQuantity.value <= 0) itemQuantity.value = 0.1;
+    });
+    itemPrice.addEventListener('change', () => {
+        if (itemPrice.value < 0) itemPrice.value = 0;
+    });
+</script>
+</body>
+</html>
