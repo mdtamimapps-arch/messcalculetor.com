@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>দি অক্টা স্কোয়াড - মেস ম্যানেজমেন্ট সিস্টেম</title>
-    <!-- Font Awesome 6 (free icons) -->
+    <title>দি অক্টা স্কোয়াড - মেস ম্যানেজমেন্ট (মাল্টি বাইয়ার, দ্বিভাষিক সংখ্যা)</title>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Font: Inter & Noto Sans Bengali -->
+    <!-- Google Fonts: Inter + Noto Sans Bengali -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -15,22 +15,20 @@
             box-sizing: border-box;
         }
         body {
-            background: #f0f2f5;
+            background: #eef2ff;
             font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
             padding: 2rem 1rem;
-            color: #1e293b;
+            color: #0f172a;
         }
-        /* main card / cash memo container */
         .memo-container {
             max-width: 1280px;
             margin: 0 auto;
             background: #ffffff;
-            border-radius: 28px;
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+            border-radius: 32px;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
             overflow: hidden;
-            transition: all 0.2s;
         }
-        /* header section */
+        /* header */
         .memo-header {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             padding: 1.5rem 2rem;
@@ -44,25 +42,20 @@
         .squad-title {
             font-size: 1.8rem;
             font-weight: 800;
-            letter-spacing: -0.3px;
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        .squad-title i {
-            font-size: 2rem;
-            color: #facc15;
-        }
+        .squad-title i { font-size: 2rem; color: #facc15; }
         .date-badge {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(4px);
             padding: 0.5rem 1.2rem;
             border-radius: 40px;
             font-weight: 500;
-            font-size: 1rem;
-            font-family: monospace;
+            font-size: 0.9rem;
         }
-        /* info row : manager & buy by */
+        /* info panel */
         .info-panel {
             display: flex;
             flex-wrap: wrap;
@@ -73,24 +66,20 @@
         }
         .info-field {
             flex: 1;
-            min-width: 180px;
+            min-width: 200px;
         }
         .info-field label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
+            font-size: 0.7rem;
             font-weight: 700;
-            color: #475569;
+            color: #334155;
             letter-spacing: 0.5px;
             display: block;
             margin-bottom: 6px;
         }
-        .info-field input, .info-field select {
+        .info-field input, .info-field .tag-input-wrapper {
             width: 100%;
-            padding: 0.7rem 1rem;
             border: 1px solid #cbd5e1;
-            border-radius: 20px;
-            font-family: inherit;
-            font-size: 0.95rem;
+            border-radius: 24px;
             background: white;
             transition: 0.2s;
         }
@@ -99,74 +88,81 @@
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
         }
-        /* table section */
-        .table-wrapper {
-            overflow-x: auto;
-            padding: 0 1.5rem 1rem 1.5rem;
+        /* multi-select tag input (Buy by) */
+        .tag-input-wrapper {
+            border: 1px solid #cbd5e1;
+            border-radius: 24px;
+            background: white;
+            padding: 0.4rem 0.6rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            cursor: text;
         }
+        .tag-item {
+            background: #e2e8f0;
+            padding: 4px 12px;
+            border-radius: 32px;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #0f172a;
+        }
+        .tag-item i {
+            cursor: pointer;
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+        .tag-item i:hover { color: #dc2626; }
+        .tag-input {
+            border: none;
+            outline: none;
+            flex: 1;
+            min-width: 100px;
+            padding: 6px 4px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            background: transparent;
+        }
+        /* table */
+        .table-wrapper { overflow-x: auto; padding: 0 1.5rem 1rem 1.5rem; }
         .items-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9rem;
-            min-width: 600px;
+            min-width: 650px;
         }
         .items-table th {
             text-align: left;
             padding: 1rem 0.75rem;
-            background-color: #f1f5f9;
+            background: #f1f5f9;
             font-weight: 600;
-            color: #0f172a;
-            border-bottom: 2px solid #e2e8f0;
         }
         .items-table td {
             padding: 0.9rem 0.75rem;
             border-bottom: 1px solid #eef2ff;
-            vertical-align: middle;
         }
-        .items-table tr:hover td {
-            background-color: #fef9e3;
-        }
-        .action-btns {
-            display: flex;
-            gap: 10px;
-        }
-        .edit-btn, .delete-btn {
+        .items-table tr:hover td { background: #fef9e3; }
+        .action-btns button {
             background: none;
             border: none;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: 0.1s;
-            padding: 5px 8px;
-            border-radius: 30px;
+            margin: 0 4px;
         }
-        .edit-btn { color: #3b82f6; }
-        .edit-btn:hover { background: #dbeafe; transform: scale(1.05);}
-        .delete-btn { color: #ef4444; }
-        .delete-btn:hover { background: #fee2e2; transform: scale(1.05);}
-        .total-row {
-            background: #fef9e3;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-        .total-row td {
-            border-top: 2px solid #facc15;
-            padding: 1rem 0.75rem;
-        }
-        /* form section (add / edit product) */
+        .edit-btn { color: #2563eb; }
+        .delete-btn { color: #dc2626; }
+        .total-row { background: #fef9e3; font-weight: 700; }
+        .total-row td { border-top: 2px solid #facc15; padding: 1rem 0.75rem; }
+        /* product form */
         .product-form {
             margin: 1rem 2rem 2rem 2rem;
             background: #f9fafb;
             border-radius: 28px;
             padding: 1.5rem;
-            border: 1px solid #e4e7eb;
-        }
-        .form-title {
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #0f172a;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            border: 1px solid #e2e8f0;
         }
         .form-grid {
             display: flex;
@@ -179,15 +175,12 @@
             min-width: 150px;
             position: relative;
         }
-        .form-group.small {
-            flex: 1;
-        }
+        .form-group.small { flex: 1; }
         .form-group label {
             font-size: 0.7rem;
             font-weight: 600;
             display: block;
             margin-bottom: 5px;
-            color: #334155;
         }
         .form-group input {
             width: 100%;
@@ -195,57 +188,30 @@
             border-radius: 40px;
             border: 1px solid #cbd5e1;
             font-family: inherit;
-            font-size: 0.9rem;
         }
         .btn-group {
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
-            align-items: center;
             margin-top: 1rem;
         }
         button {
             font-family: inherit;
             font-weight: 600;
-            padding: 0.65rem 1.3rem;
+            padding: 0.6rem 1.3rem;
             border-radius: 40px;
             border: none;
             cursor: pointer;
             transition: 0.2s;
-            font-size: 0.85rem;
             display: inline-flex;
             align-items: center;
             gap: 8px;
         }
-        .btn-primary {
-            background: #0f172a;
-            color: white;
-        }
-        .btn-primary:hover {
-            background: #1e293b;
-            transform: translateY(-2px);
-        }
-        .btn-warning {
-            background: #eab308;
-            color: #0f172a;
-        }
-        .btn-warning:hover {
-            background: #ca8a04;
-        }
-        .btn-secondary {
-            background: #e2e8f0;
-            color: #1e293b;
-        }
-        .btn-secondary:hover {
-            background: #cbd5e1;
-        }
-        .btn-danger {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-        .btn-danger:hover {
-            background: #fecaca;
-        }
+        .btn-primary { background: #0f172a; color: white; }
+        .btn-primary:hover { background: #1e293b; transform: translateY(-2px); }
+        .btn-warning { background: #eab308; color: #0f172a; }
+        .btn-secondary { background: #e2e8f0; color: #1e293b; }
+        .btn-danger { background: #fee2e2; color: #b91c1c; }
         .print-area {
             display: flex;
             justify-content: flex-end;
@@ -258,194 +224,136 @@
             background: white;
             border: 1px solid #cbd5e1;
             border-radius: 20px;
-            max-height: 220px;
+            max-height: 200px;
             overflow-y: auto;
             width: calc(100% - 2px);
             z-index: 100;
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            margin-top: 5px;
         }
         .suggestions-box div {
             padding: 10px 16px;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.1s;
         }
-        .suggestions-box div:hover {
-            background: #eef2ff;
-        }
-        /* print styles */
+        .suggestions-box div:hover { background: #eef2ff; }
         @media print {
-            body {
-                background: white;
-                padding: 0;
-                margin: 0;
-            }
-            .memo-container {
-                box-shadow: none;
-                border-radius: 0;
-                max-width: 100%;
-            }
-            .product-form, .print-area, .action-btns, .btn-group, .btn-primary, .btn-warning, .btn-secondary, .btn-danger, .info-panel .info-field input, .info-panel .info-field select {
-                display: none !important;
-            }
-            .info-panel {
-                border: 1px solid #ccc;
-                background: #fcfcfc;
-            }
-            .info-field label {
-                color: black;
-            }
-            .items-table th, .items-table td {
-                border: 1px solid #ccc;
-            }
-            .total-row td {
-                border-top: 2px solid black;
-            }
-            .memo-header {
-                background: #0f172a !important;
-                color: white !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .date-badge {
-                background: #334155;
-                color: white;
-            }
+            body { background: white; padding: 0; margin: 0; }
+            .product-form, .print-area, .action-btns, .btn-group, .tag-input, .tag-item i { display: none !important; }
+            .info-panel, .memo-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .tag-item { background: none; border: 1px solid #ccc; }
         }
         footer {
             text-align: center;
             font-size: 0.7rem;
             padding: 1rem;
-            color: #64748b;
-        }
-        i.fa, i.far, i.fas {
-            pointer-events: none;
-        }
-        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type=number] {
-            -moz-appearance: textfield;
+            color: #475569;
         }
     </style>
 </head>
 <body>
 <div class="memo-container">
-    <!-- Header: The_Octa_Squad + Auto Date -->
     <div class="memo-header">
-        <div class="squad-title">
-            <i class="fas fa-utensils"></i>
-            <span>The_Octa_Squad</span>
-        </div>
+        <div class="squad-title"><i class="fas fa-utensils"></i><span>The_Octa_Squad</span></div>
         <div class="date-badge" id="currentDateDisplay"></div>
     </div>
 
-    <!-- Manager & Buy by (ক্রেতার নাম) -->
     <div class="info-panel">
+        <!-- Manager field with auto-suggest (datalist) -->
         <div class="info-field">
             <label><i class="fas fa-user-tie"></i> ম্যানেজারের নাম (Manager)</label>
-            <input type="text" id="managerName" placeholder="যেমন: রাকিব হাসান" value="আব্দুর রহিম">
-        </div>
-        <div class="info-field">
-            <label><i class="fas fa-user-check"></i> Buy by (ক্রয়কারী)</label>
-            <input type="text" id="buyByName" list="memberList" placeholder="৮ সদস্যের নাম">
-            <datalist id="memberList">
-                <option value="শাহীন আলম">
-                <option value="হাসান মিয়া">
-                <option value="রফিক উদ্দিন">
-                <option value="করিম খান">
-                <option value="সজিব আহমেদ">
-                <option value="তুহিন চৌধুরী">
-                <option value="আরিফ ইসলাম">
-                <option value="নাঈম হোসেন">
+            <input type="text" id="managerName" list="memberListAuto" placeholder="নির্বাচন করুন বা লিখুন" autocomplete="off">
+            <datalist id="memberListAuto">
+                <option value="Lalon">
+                <option value="Sammo">
+                <option value="Saif">
+                <option value="Mehedi (ohona)">
+                <option value="Pranto">
+                <option value="akash">
+                <option value="samiul">
+                <option value="MMH TAMIM">
             </datalist>
+        </div>
+        <!-- Buy by field - MULTI SELECT tag input (1 or more names) -->
+        <div class="info-field">
+            <label><i class="fas fa-user-check"></i> Buy by (ক্রয়কারী) — একাধিক নাম যোগ করুন</label>
+            <div class="tag-input-wrapper" id="buyByWrapper">
+                <div id="buyByTagsContainer" class="tags-container" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
+                <input type="text" id="buyByInput" class="tag-input" placeholder="টাইপ করুন ও এন্টার বা কমা দিন" autocomplete="off" list="memberListBuy">
+                <datalist id="memberListBuy">
+                    <option value="Lalon">
+                    <option value="Sammo">
+                    <option value="Saif">
+                    <option value="Mehedi (ohona)">
+                    <option value="Pranto">
+                    <option value="akash">
+                    <option value="samiul">
+                    <option value="MMH TAMIM">
+                </datalist>
+            </div>
+            <input type="hidden" id="buyByHidden" value="">
         </div>
     </div>
 
-    <!-- বাজারের তালিকা (Table) -->
+    <!-- বাজারের টেবিল -->
     <div class="table-wrapper">
         <table class="items-table" id="itemsTable">
-            <thead>
-                <tr>
-                    <th>ক্রমিক #</th>
-                    <th>পণ্যের নাম (Item)</th>
-                    <th>পরিমাণ (Qty)</th>
-                    <th>দাম/একক (Price)</th>
-                    <th>মোট (Total)</th>
-                    <th>অ্যাকশন</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                <!-- dynamic rows -->
-            </tbody>
-            <tfoot>
-                <tr class="total-row" id="totalRow">
-                    <td colspan="4" style="text-align: right; font-weight: 700;">সর্বমোট (Grand Total): </td>
-                    <td id="grandTotalCell">০.০০ টাকা</td>
-                    <td></td>
-                </tr>
-            </tfoot>
+            <thead><tr><th>ক্রমিক #</th><th>পণ্যের নাম</th><th>পরিমাণ</th><th>দাম/একক</th><th>মোট</th><th>অ্যাকশন</th></tr></thead>
+            <tbody id="tableBody"></tbody>
+            <tfoot><tr class="total-row"><td colspan="4" style="text-align:right;">সর্বমোট (Grand Total):</td><td id="grandTotalCell">০.০০ টাকা</td><td></td></tr></tfoot>
         </table>
     </div>
 
-    <!-- Add/Edit product section with recommendation -->
+    <!-- পণ্য যোগ / সম্পাদনা ফর্ম (Bengali & English number support) -->
     <div class="product-form">
-        <div class="form-title">
-            <i class="fas fa-cart-plus"></i> <span id="formModeLabel">পণ্য যোগ করুন</span>
-        </div>
+        <div class="form-title"><i class="fas fa-cart-plus"></i> <span id="formModeLabel">পণ্য যোগ করুন</span></div>
         <div class="form-grid">
             <div class="form-group" style="position: relative;">
-                <label>পণ্যের নাম (বাংলা/ইংরেজি)</label>
-                <input type="text" id="itemNameInput" placeholder="যেমন: সবজি, মাছ, ডিম..." autocomplete="off">
-                <div id="suggestionList" class="suggestions-box" style="display: none;"></div>
+                <label>পণ্যের নাম (বাংলা/ইং)</label>
+                <input type="text" id="itemNameInput" placeholder="যেমন: সবজি, মাছ" autocomplete="off">
+                <div id="suggestionList" class="suggestions-box" style="display:none;"></div>
             </div>
             <div class="form-group small">
-                <label>পরিমাণ (কেজি/পিস)</label>
-                <input type="number" id="itemQuantity" step="any" value="1" placeholder="০.০">
+                <label>পরিমাণ (দ্বিভাষিক সংখ্যা)</label>
+                <input type="text" id="itemQuantity" placeholder="যেমন: ১.৫ বা 2" value="1">
             </div>
             <div class="form-group small">
-                <label>দাম (টাকা)</label>
-                <input type="number" id="itemPrice" step="any" value="0" placeholder="০.০০">
+                <label>দাম/একক (দ্বিভাষিক)</label>
+                <input type="text" id="itemPrice" placeholder="যেমন: ৪৫ বা 45" value="0">
             </div>
         </div>
         <div class="btn-group">
             <button id="addItemBtn" class="btn-primary"><i class="fas fa-plus-circle"></i> আইটেম যোগ করুন</button>
-            <button id="updateItemBtn" class="btn-warning" style="display: none;"><i class="fas fa-sync-alt"></i> হালনাগাদ করুন</button>
+            <button id="updateItemBtn" class="btn-warning" style="display: none;"><i class="fas fa-sync-alt"></i> হালনাগাদ</button>
             <button id="cancelEditBtn" class="btn-secondary" style="display: none;"><i class="fas fa-times"></i> বাতিল</button>
         </div>
-        <div style="font-size: 0.7rem; margin-top: 10px; color: #475569;">
-            <i class="fas fa-lightbulb"></i> পরামর্শ: বাংলায় প্রথম অক্ষর লিখলেই রেকমেন্ডেশন আসবে (যেমন 'স' লিখলে সবজি)
-        </div>
+        <div style="font-size:0.7rem; margin-top:10px;"><i class="fas fa-keyboard"></i> পরামর্শ: সংখ্যা বাংলায় (১,২,৩) বা ইংরেজিতে (1,2,3) লিখুন, সিস্টেম নিজে চিনবে।</div>
     </div>
 
-    <!-- Print & Reset actions -->
     <div class="print-area">
-        <button id="printPdfBtn" class="btn-primary"><i class="fas fa-print"></i> PDF / প্রিন্ট করুন</button>
+        <button id="printPdfBtn" class="btn-primary"><i class="fas fa-print"></i> PDF / প্রিন্ট</button>
         <button id="clearAllBtn" class="btn-danger"><i class="fas fa-trash-alt"></i> সব মুছুন</button>
     </div>
-    <footer>মেস ম্যানেজমেন্ট সিস্টেম | দি অক্টা স্কোয়াড - স্বয়ংক্রিয় হিসাব, ক্যাশ মেমো স্টাইল</footer>
+    <footer>মেস ম্যানেজমেন্ট | একাধিক ক্রেতা যোগ করার ব্যবস্থা | দ্বিভাষিক সংখ্যা সমর্থন</footer>
 </div>
 
 <script>
-    // ======================== প্রোডাক্ট রেকমেন্ডেশনের জন্য আইটেম লিস্ট ========================
+    // ---------- পণ্যের রেকমেন্ডেশন লিস্ট ----------
     const bengaliProductList = [
-        "সবজি", "মাছ", "মাংস", "ডিম", "তেল", "চাল", "ডাল", "পেঁয়াজ", "রসুন", "আদা", "লবণ", 
-        "মরিচ", "হলুদ", "জিরা", "ধনিয়া", "আলু", "টমেটো", "পটল", "করলা", "কুমড়ো", "শশা", 
-        "লাউ", "বেগুন", "মুলা", "কপি", "ফুলকপি", "বাঁধাকপি", "শিম", "চিচিঙ্গা", "ধনে পাতা", 
-        "লেবু", "ঘি", "সরিষার তেল", "চিনি", "গুড়", "আটা", "ময়দা", "সুজি", "চিড়া", "মুড়ি", 
-        "বেসন", "দই", "দুধ", "পনির", "মুরগি", "গরুর মাংস", "খাসির মাংস", "ইলিশ", "রুই", 
-        "কাতলা", "চিংড়ি", "পাউরুটি", "বিস্কুট", "চা", "কফি", "সাবান", "ডিটারজেন্ট", "মসলা", 
-        "জিরা গুঁড়া", "ধনিয়া গুঁড়া", "মরিচ গুঁড়া", "টমেটো সস", "সয়াবিন তেল"
+        "সবজি", "মাছ", "মাংস", "ডিম", "তেল", "চাল", "ডাল", "পেঁয়াজ", "রসুন", "আদা", "লবণ", "মরিচ", "হলুদ", "জিরা",
+        "ধনিয়া", "আলু", "টমেটো", "পটল", "করলা", "কুমড়ো", "শশা", "লাউ", "বেগুন", "মুলা", "কপি", "ফুলকপি", "বাঁধাকপি",
+        "শিম", "চিচিঙ্গা", "ধনে পাতা", "লেবু", "ঘি", "সরিষার তেল", "চিনি", "গুড়", "আটা", "ময়দা", "সুজি", "চিড়া", "মুড়ি",
+        "বেসন", "দই", "দুধ", "পনির", "মুরগি", "গরুর মাংস", "খাসির মাংস", "ইলিশ", "রুই", "কাতলা", "চিংড়ি", "পাউরুটি",
+        "বিস্কুট", "চা", "কফি", "সাবান", "ডিটারজেন্ট", "মসলা", "জিরা গুঁড়া", "ধনিয়া গুঁড়া", "মরিচ গুঁড়া"
     ];
     
-    // ডাটা স্টোর : items array [{ id, name, quantity, price, total }]
+    // ---------- গ্লোবাল ডাটা ----------
     let itemsArray = [];
     let nextId = 1;
     let editMode = false;
     let editItemId = null;
-
+    
+    // Multi-select Buy By: store selected names array
+    let selectedBuyers = [];   // array of strings
+    
     // DOM elements
     const tableBody = document.getElementById('tableBody');
     const grandTotalCell = document.getElementById('grandTotalCell');
@@ -459,46 +367,111 @@
     const printBtn = document.getElementById('printPdfBtn');
     const clearAllBtn = document.getElementById('clearAllBtn');
     const managerNameInput = document.getElementById('managerName');
-    const buyByNameInput = document.getElementById('buyByName');
-    
-    // suggestion box
+    const buyByTagsContainer = document.getElementById('buyByTagsContainer');
+    const buyByInput = document.getElementById('buyByInput');
+    const buyByHidden = document.getElementById('buyByHidden');
     const suggestionBox = document.getElementById('suggestionList');
-
-    // date function (আপডেট latest)
+    
+    // ---------- Helper: Bengali to English digits conversion ----------
+    function convertBengaliToEnglishNum(str) {
+        const bengaliDigits = { '০': '0', '১': '1', '২': '2', '৩': '3', '৪': '4', '৫': '5', '৬': '6', '৭': '7', '৮': '8', '৯': '9' };
+        return str.replace(/[০-৯]/g, d => bengaliDigits[d]);
+    }
+    function parseNumericInput(value) {
+        let cleaned = convertBengaliToEnglishNum(value);
+        cleaned = cleaned.replace(/[^0-9.]/g, '');
+        const num = parseFloat(cleaned);
+        return isNaN(num) ? 0 : num;
+    }
+    // format number for display (keeps original look, but we show english digit)
+    function formatNumberForDisplay(num) {
+        return num.toFixed(2);
+    }
+    
+    // ---------- Multi-select tag logic for Buy by ----------
+    function renderBuyByTags() {
+        buyByTagsContainer.innerHTML = '';
+        selectedBuyers.forEach((buyer, idx) => {
+            const tagSpan = document.createElement('span');
+            tagSpan.className = 'tag-item';
+            tagSpan.innerHTML = `${escapeHtml(buyer)} <i class="fas fa-times-circle remove-buyer" data-index="${idx}"></i>`;
+            buyByTagsContainer.appendChild(tagSpan);
+        });
+        // attach remove event
+        document.querySelectorAll('.remove-buyer').forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const index = parseInt(icon.getAttribute('data-index'));
+                if (!isNaN(index)) {
+                    selectedBuyers.splice(index, 1);
+                    renderBuyByTags();
+                    updateBuyByHidden();
+                }
+            });
+        });
+        updateBuyByHidden();
+    }
+    function addBuyer(name) {
+        name = name.trim();
+        if (name === "") return;
+        if (!selectedBuyers.includes(name)) {
+            selectedBuyers.push(name);
+            renderBuyByTags();
+        }
+        buyByInput.value = '';
+    }
+    function updateBuyByHidden() {
+        buyByHidden.value = selectedBuyers.join(', ');
+    }
+    // event for buy by input: enter, comma, or datalist selection
+    buyByInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ',') {
+            e.preventDefault();
+            let val = buyByInput.value.replace(/,/g, '').trim();
+            if (val) addBuyer(val);
+        }
+    });
+    buyByInput.addEventListener('blur', () => {
+        let val = buyByInput.value.trim();
+        if (val) addBuyer(val);
+    });
+    // optional: datalist click handled by input change
+    buyByInput.addEventListener('change', () => {
+        let val = buyByInput.value.trim();
+        if (val) addBuyer(val);
+    });
+    // default preselected buyers: example one name (optional)
+    function setDefaultBuyers() {
+        if (selectedBuyers.length === 0) {
+            selectedBuyers.push("Lalon");
+            renderBuyByTags();
+        }
+    }
+    
+    // ---------- Date update ----------
     function updateDate() {
         const now = new Date();
-        const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
-        const banglaDate = now.toLocaleDateString('bn-BD', options);
-        document.getElementById('currentDateDisplay').innerText = banglaDate + " | " + now.toLocaleTimeString('bn-BD', { hour: '2-digit', minute:'2-digit' });
+        const banglaDate = now.toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+        document.getElementById('currentDateDisplay').innerText = banglaDate + " | " + now.toLocaleTimeString('bn-BD', { hour:'2-digit', minute:'2-digit' });
     }
     updateDate();
     setInterval(updateDate, 60000);
-
-    // গ্র্যান্ড টোটাল রিকারculate
-    function calculateGrandTotal() {
-        let sum = 0;
-        itemsArray.forEach(item => {
-            sum += item.total;
-        });
-        return sum;
-    }
     
+    // ---------- Items CRUD ----------
+    function calculateGrandTotal() {
+        return itemsArray.reduce((sum, item) => sum + item.total, 0);
+    }
     function renderTable() {
-        if (!tableBody) return;
         tableBody.innerHTML = '';
         if (itemsArray.length === 0) {
-            const emptyRow = document.createElement('tr');
-            emptyRow.innerHTML = `<td colspan="6" style="text-align:center; padding:40px;">📭 এখনো কোনো পণ্য যোগ করা হয়নি। উপরের ফর্ম দিয়ে বাজারের আইটেম যোগ করুন।</td>`;
-            tableBody.appendChild(emptyRow);
+            tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:40px;">📭 কোনো পণ্য যোগ করা হয়নি। ফর্ম দিয়ে যোগ করুন।</td></tr>`;
             grandTotalCell.innerText = '০.০০ টাকা';
             return;
         }
         itemsArray.forEach((item, idx) => {
             const row = document.createElement('tr');
-            // serial no
-            const serial = idx + 1;
             row.innerHTML = `
-                <td>${serial}</td>
+                <td>${idx+1}</td>
                 <td style="font-weight:500;">${escapeHtml(item.name)}</td>
                 <td>${item.quantity}</td>
                 <td>${item.price.toFixed(2)} ট.</td>
@@ -510,7 +483,6 @@
             `;
             tableBody.appendChild(row);
         });
-        // attach event listeners for edit/delete
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = parseInt(btn.getAttribute('data-id'));
@@ -520,46 +492,28 @@
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = parseInt(btn.getAttribute('data-id'));
-                deleteItemById(id);
+                if (confirm('মুছে ফেলতে চান?')) {
+                    itemsArray = itemsArray.filter(i => i.id !== id);
+                    if (editMode && editItemId === id) resetFormToAddMode();
+                    renderTable();
+                }
             });
         });
-        const total = calculateGrandTotal();
-        grandTotalCell.innerText = total.toFixed(2) + ' টাকা';
-    }
-    
-    // Helper: escape HTML
-    function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
-            if(m === '&') return '&amp;';
-            if(m === '<') return '&lt;';
-            if(m === '>') return '&gt;';
-            return m;
-        });
-    }
-    
-    function deleteItemById(id) {
-        if (confirm('এই পণ্যটি মুছে ফেলতে চান?')) {
-            itemsArray = itemsArray.filter(item => item.id !== id);
-            if (editMode && editItemId === id) {
-                resetFormToAddMode();
-            }
-            renderTable();
-        }
+        grandTotalCell.innerText = calculateGrandTotal().toFixed(2) + ' টাকা';
     }
     
     function enterEditMode(id) {
-        const targetItem = itemsArray.find(item => item.id === id);
-        if (!targetItem) return;
+        const item = itemsArray.find(i => i.id === id);
+        if (!item) return;
         editMode = true;
         editItemId = id;
-        itemNameInput.value = targetItem.name;
-        itemQuantity.value = targetItem.quantity;
-        itemPrice.value = targetItem.price;
+        itemNameInput.value = item.name;
+        itemQuantity.value = item.quantity;   // original numeric value shows as english digit
+        itemPrice.value = item.price;
         addBtn.style.display = 'none';
         updateBtn.style.display = 'inline-flex';
         cancelBtn.style.display = 'inline-flex';
         formModeLabel.innerHTML = '<i class="fas fa-pen-alt"></i> পণ্য হালনাগাদ করুন';
-        // scroll to form
         document.querySelector('.product-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     
@@ -577,47 +531,25 @@
     }
     
     function addOrUpdateItem() {
-        let itemName = itemNameInput.value.trim();
-        let quantity = parseFloat(itemQuantity.value);
-        let price = parseFloat(itemPrice.value);
-        if (itemName === "") {
-            alert("দয়া করে পণ্যের নাম লিখুন (যেমন: সবজি, মাছ)");
-            return;
-        }
-        if (isNaN(quantity) || quantity <= 0) {
-            alert("সঠিক পরিমাণ দিন (০ এর বেশি)");
-            return;
-        }
-        if (isNaN(price) || price < 0) {
-            alert("সঠিক দাম দিন (টাকায়)");
-            return;
-        }
+        let name = itemNameInput.value.trim();
+        if (name === "") { alert("পণ্যের নাম দিন"); return; }
+        // parse quantity & price with bengali support
+        let rawQty = itemQuantity.value;
+        let rawPrice = itemPrice.value;
+        let quantity = parseNumericInput(rawQty);
+        let price = parseNumericInput(rawPrice);
+        if (quantity <= 0) { alert("পরিমাণ ০ এর বেশি দিন (বাংলা বা ইংরেজি সংখ্যা)"); return; }
+        if (price < 0) { alert("দাম সঠিক দিন"); return; }
         const total = quantity * price;
-        
         if (editMode && editItemId !== null) {
-            // update existing
             const index = itemsArray.findIndex(i => i.id === editItemId);
             if (index !== -1) {
-                itemsArray[index] = {
-                    ...itemsArray[index],
-                    name: itemName,
-                    quantity: quantity,
-                    price: price,
-                    total: total
-                };
+                itemsArray[index] = { ...itemsArray[index], name, quantity, price, total };
             }
             resetFormToAddMode();
         } else {
-            // add new
-            const newItem = {
-                id: nextId++,
-                name: itemName,
-                quantity: quantity,
-                price: price,
-                total: total
-            };
+            const newItem = { id: nextId++, name, quantity, price, total };
             itemsArray.push(newItem);
-            // clear form but keep previous? good practice
             itemNameInput.value = '';
             itemQuantity.value = '1';
             itemPrice.value = '0';
@@ -627,7 +559,7 @@
     }
     
     function clearAllItems() {
-        if (itemsArray.length > 0 && confirm("সব বাজারের আইটেম রিসেট করবেন? সমস্ত ডাটা মুছে যাবে।")) {
+        if (itemsArray.length && confirm("সব বাজারের আইটেম রিসেট করবেন?")) {
             itemsArray = [];
             nextId = 1;
             resetFormToAddMode();
@@ -635,22 +567,12 @@
         }
     }
     
-    // ------------------------- Auto Recommendation (বাংলা) -------------------------
-    function showSuggestions(filterText) {
-        if (!filterText || filterText.length === 0) {
-            hideSuggestions();
-            return;
-        }
-        // prefix match (প্রথম অক্ষর থেকে ম্যাচ)
-        const lowerFilter = filterText.toLowerCase();
-        const filtered = bengaliProductList.filter(product => 
-            product.toLowerCase().startsWith(lowerFilter) || 
-            product.startsWith(filterText)   // বাংলা সরাসরি ম্যাচ
-        );
-        if (filtered.length === 0) {
-            hideSuggestions();
-            return;
-        }
+    // ---------- Product suggestions ----------
+    function showSuggestions(filter) {
+        if (!filter || filter.length === 0) { hideSuggestions(); return; }
+        const lower = filter.toLowerCase();
+        const filtered = bengaliProductList.filter(p => p.toLowerCase().startsWith(lower) || p.startsWith(filter));
+        if (filtered.length === 0) { hideSuggestions(); return; }
         suggestionBox.innerHTML = '';
         filtered.forEach(prod => {
             const div = document.createElement('div');
@@ -658,110 +580,75 @@
             div.addEventListener('click', () => {
                 itemNameInput.value = prod;
                 hideSuggestions();
-                // ফোকাস ধরে রাখা
                 itemNameInput.focus();
             });
             suggestionBox.appendChild(div);
         });
         suggestionBox.style.display = 'block';
     }
-    
-    function hideSuggestions() {
-        suggestionBox.style.display = 'none';
-    }
-    
-    // ইভেন্ট লিসেনার for input field
-    itemNameInput.addEventListener('input', function(e) {
-        const val = e.target.value;
-        if (val.length > 0) {
-            showSuggestions(val);
-        } else {
-            hideSuggestions();
-        }
-    });
-    document.addEventListener('click', function(event) {
-        if (!itemNameInput.contains(event.target) && !suggestionBox.contains(event.target)) {
-            hideSuggestions();
-        }
+    function hideSuggestions() { suggestionBox.style.display = 'none'; }
+    itemNameInput.addEventListener('input', (e) => showSuggestions(e.target.value));
+    document.addEventListener('click', (e) => {
+        if (!itemNameInput.contains(e.target) && !suggestionBox.contains(e.target)) hideSuggestions();
     });
     
-    // print / PDF generation with cash memo style
+    // ---------- Print PDF ----------
     function printAsPDF() {
-        // ensure grand total and fields are visible
-        const originalTitle = document.title;
-        document.title = "The_Octa_Squad_মেস_ক্যাশ_মেমো";
+        // Ensure any empty name warnings not needed
         window.print();
-        document.title = originalTitle;
     }
     
-    // load any demo data (optional - few demo products for showcase)
+    // Helper escape
+    function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+    
+    // Load demo items for show
     function loadDemoItems() {
         if (itemsArray.length === 0) {
-            itemsArray.push({
-                id: nextId++,
-                name: "সবজি (মিক্স)",
-                quantity: 2,
-                price: 45,
-                total: 90
-            });
-            itemsArray.push({
-                id: nextId++,
-                name: "মাছ (রুই)",
-                quantity: 1.5,
-                price: 280,
-                total: 420
-            });
-            itemsArray.push({
-                id: nextId++,
-                name: "ডিম",
-                quantity: 12,
-                price: 12,
-                total: 144
-            });
+            itemsArray.push({ id: nextId++, name: "সবজি (মিক্স)", quantity: 2, price: 45, total: 90 });
+            itemsArray.push({ id: nextId++, name: "মাছ (রুই)", quantity: 1.5, price: 280, total: 420 });
+            itemsArray.push({ id: nextId++, name: "ডিম", quantity: 12, price: 12, total: 144 });
             renderTable();
         }
     }
     
-    // event binding
+    // Event listeners
     addBtn.addEventListener('click', addOrUpdateItem);
     updateBtn.addEventListener('click', addOrUpdateItem);
     cancelBtn.addEventListener('click', resetFormToAddMode);
     printBtn.addEventListener('click', printAsPDF);
     clearAllBtn.addEventListener('click', clearAllItems);
     
-    // প্রস্তুত করুন ডেমো
+    // Manager default suggestion (already has datalist)
+    managerNameInput.value = "Lalon";  // default one
+    
+    // initialize multi buyer
+    setDefaultBuyers();
+    
+    // allow both English/Bengali digits live inside quantity & price fields: convert on blur & show numeric clarity
+    function setupBilingualNumberInputs() {
+        const inputs = [itemQuantity, itemPrice];
+        inputs.forEach(inp => {
+            inp.addEventListener('blur', function() {
+                let val = this.value;
+                let numeric = parseNumericInput(val);
+                if (!isNaN(numeric)) {
+                    this.value = numeric.toString();  // show english digit but user can type bengali next time
+                } else {
+                    if (this.id === 'itemQuantity') this.value = '1';
+                    else this.value = '0';
+                }
+            });
+        });
+    }
+    setupBilingualNumberInputs();
+    
     loadDemoItems();
     
-    // optional: autosave to localStorage? but not mandatory; keeping fresh
+    // final sync for buyers hidden field for consistency (print shows comma separated)
+    function updateBuyByHidden() { buyByHidden.value = selectedBuyers.join(', '); }
     
-    // give default manager and buy by name with one of members
-    managerNameInput.value = "Lalon (ম্যানেজার)";
-    buyByNameInput.value = "Leo Messi";
-    
-    // keyboard shortcut: add on enter in form
-    const formInputs = [itemNameInput, itemQuantity, itemPrice];
-    formInputs.forEach(inp => {
-        inp.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                if (editMode) addOrUpdateItem();
-                else addOrUpdateItem();
-            }
-        });
-    });
-    
-    // at final, hide suggestion when click outside 
-    window.onload = () => {
-        renderTable();
-    };
-    
-    // Quantity / price validation real-time
-    itemQuantity.addEventListener('change', () => {
-        if (itemQuantity.value <= 0) itemQuantity.value = 0.1;
-    });
-    itemPrice.addEventListener('change', () => {
-        if (itemPrice.value < 0) itemPrice.value = 0;
-    });
+    // fix hidden on any change
+    window.updateBuyByHidden = updateBuyByHidden;
 </script>
 </body>
 </html>
